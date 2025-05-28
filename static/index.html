@@ -84,20 +84,12 @@
             -webkit-background-clip: text;
             background-clip: text;
             background-image: linear-gradient(to right, #a0a0ff, #8200ff);
-            transition: all 0.5s ease-in-out;
-            animation: float 6s ease-in-out infinite;
+            transition: all 0.3s ease-in-out;
 }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0);
-}
-            50% { transform: translateY(-10px);
-}
-        }
 
         h1:hover {
-            text-shadow: var(--accent-glow);
-            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(130, 0, 255, 0.9);
+            background-image: linear-gradient(to right, #b4b4ff, #9a00ff);
         }
 
         #dynamicParagraph {
