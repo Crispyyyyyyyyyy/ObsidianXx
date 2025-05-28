@@ -13,18 +13,18 @@
 
     <style>
         :root {
-            --bg-color-vanta-sky: #0b1028; 
-            --bg-color-vanta-wave: #122a50;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-bg-hover: rgba(255, 255, 255, 0.12);
-            --glass-bg-active: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --bg-color-vanta-sky: #1a0933; 
+            --bg-color-vanta-wave: #2d0f4f;
+            --glass-bg: rgba(147, 51, 234, 0.08);
+            --glass-bg-hover: rgba(147, 51, 234, 0.15);
+            --glass-bg-active: rgba(147, 51, 234, 0.04);
+            --glass-border: rgba(168, 85, 247, 0.2);
             --text-color: #f0f0f0;
             --text-color-darker: #b0b0b0;
-            --accent-color: #6fa8dc; 
-            --accent-color-hover: #8fc1e9;
+            --accent-color: #a855f7; 
+            --accent-color-hover: #c084fc;
             --danger-color: #ff8a80;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.2);
             --border-radius-sm: 6px;
             --border-radius-md: 10px;
             --border-radius-lg: 14px;
@@ -442,6 +442,112 @@
         .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
         .delay-5 { animation-delay: 0.5s; } .delay-6 { animation-delay: 0.6s; }
 
+        .bottom-island {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 9, 51, 0.95);
+            backdrop-filter: blur(var(--blur-intensity));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 24px;
+            padding: 12px 24px;
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(26, 9, 51, 0.4);
+            z-index: 1000;
+        }
+
+        .bottom-island .icon-button {
+            color: var(--text-color);
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .bottom-island .icon-button:hover {
+            transform: translateY(-5px);
+            color: var(--accent-color-hover);
+            border-color: var(--glass-border);
+            background: rgba(147, 51, 234, 0.15);
+        }
+
+        .bottom-island .icon-button.active {
+            color: var(--accent-color);
+            background: rgba(147, 51, 234, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .bottom-island .separator {
+            width: 1px;
+            height: 24px;
+            background: var(--glass-border);
+            margin: 0 4px;
+        }
+
+        .placeholder-container {
+            height: 100vh;
+            background: var(--bg-color-vanta-sky);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .placeholder-header {
+            padding: 20px;
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: var(--border-radius-lg);
+            backdrop-filter: blur(var(--blur-intensity));
+        }
+
+        .placeholder-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 0 10px;
+        }
+
+        .placeholder-card {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: var(--border-radius-lg);
+            padding: 20px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            backdrop-filter: blur(var(--blur-intensity));
+            transition: all 0.3s ease;
+        }
+
+        .placeholder-card:hover {
+            transform: translateY(-5px);
+            background: rgba(147, 51, 234, 0.15);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .placeholder-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: var(--border-radius-md);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 768px) {
             .vertical-tabs { width: 48px; top: 48px; height: calc(100% - 48px); padding: 2px;}
             .vertical-tabs:hover { width: 200px; }
@@ -454,6 +560,15 @@
             .search-container button { width: 28px; height: 28px; padding: 3px;}
             .navbar button { padding: 5px; width: 30px; height: 30px; font-size: 14px;}
             .menu { top: 50px; right: 8px; min-width: 210px; }
+            .bottom-island {
+                padding: 8px 16px;
+                gap: 16px;
+                bottom: 12px;
+            }
+            .bottom-island .icon-button {
+                font-size: 18px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -506,6 +621,17 @@
         </div>
     </div>
 
+    <div class="bottom-island">
+        <button class="icon-button" onclick="openGames()" title="Games"><i class="fas fa-gamepad"></i></button>
+        <button class="icon-button" onclick="openDashboard()" title="Apps"><i class="fas fa-th-large"></i></button>
+        <button class="icon-button" onclick="openMovies()" title="Movies"><i class="fas fa-film"></i></button>
+        <button class="icon-button" onclick="openAI()" title="AI Assistant"><i class="fas fa-robot"></i></button>
+        <button class="icon-button" onclick="openMusic()" title="Music"><i class="fas fa-music"></i></button>
+        <button class="icon-button" onclick="openSettings()" title="Settings"><i class="fas fa-cog"></i></button>
+        <div class="separator"></div>
+        <a href="https://discord.gg/obsidianx" target="_blank" class="icon-button" title="Join our Discord"><i class="fab fa-discord"></i></a>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.waves.min.js"></script> 
     <script>
@@ -519,10 +645,10 @@
                 minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
-                color: getComputedStyle(document.documentElement).getPropertyValue('--bg-color-vanta-wave').trim(), 
-                shininess: 25.00,
-                waveHeight: 12.00,
-                waveSpeed: 0.7,
+                color: getComputedStyle(document.documentElement).getPropertyValue('--bg-color-vanta-wave').trim(),
+                shininess: 35.00,
+                waveHeight: 15.00,
+                waveSpeed: 0.85,
                 zoom: 0.95
             });
 
@@ -947,12 +1073,136 @@
             if (zoomLevelElement) zoomLevelElement.textContent = `${Math.round(zoomLevel * 100)}%`;
         }
 
+        // Bottom island menu functions
+        function openGames() {
+            addTab('tab://games');
+            updateBottomMenuActive('gamepad');
+        }
+
+        function openDashboard() {
+            addTab('tab://apps');
+            updateBottomMenuActive('th-large');
+        }
+
+        function openMovies() {
+            addTab('tab://movies');
+            updateBottomMenuActive('film');
+        }
+
+        function openAI() {
+            addTab('tab://ai');
+            updateBottomMenuActive('robot');
+        }
+
+        function openMusic() {
+            addTab('tab://music');
+            updateBottomMenuActive('music');
+        }
+
+        function openSettings() {
+            addTab('tab://settings');
+            updateBottomMenuActive('cog');
+        }
+
+        function updateBottomMenuActive(iconName) {
+            const buttons = document.querySelectorAll('.bottom-island .icon-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                if (button.querySelector(`.fa-${iconName}`)) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        // Add these placeholder HTML contents
+        const placeholderPages = {
+            home: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `,
+            games: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `,
+            apps: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `,
+            movies: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `,
+            ai: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `,
+            music: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `,
+            settings: `
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            `
+        };
+
+        function loadPage(page) {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+            
+            iframe.srcdoc = placeholderPages[page];
+            updateBottomMenuActive(page);
+            
+            const activeTab = document.querySelector('.tab.active');
+            if (activeTab) {
+                const tabNameEl = activeTab.querySelector('.tab-name');
+                const tabIconEl = activeTab.querySelector('.tab-icon');
+                const pageName = page.charAt(0).toUpperCase() + page.slice(1);
+                if (tabNameEl) tabNameEl.textContent = pageName;
+                if (tabIconEl) tabIconEl.textContent = pageName.charAt(0);
+            }
+            
+            document.getElementById('search-input').value = `tab://${page}`;
+            updateCurrentTabInfo(iframe);
+            updatePageTitle(iframe);
+        }
+
+        // Update the menu functions to use loadPage
+        function goHome() {
+            loadPage('home');
+            updateBottomMenuActive('home');
+        }
+
+        function openGames() {
+            loadPage('games');
+            updateBottomMenuActive('gamepad');
+        }
+
+        function openDashboard() {
+            loadPage('apps');
+            updateBottomMenuActive('th-large');
+        }
+
+        function openMovies() {
+            loadPage('movies');
+            updateBottomMenuActive('film');
+        }
+
+        function openAI() {
+            loadPage('ai');
+            updateBottomMenuActive('robot');
+        }
+
+        function openMusic() {
+            loadPage('music');
+            updateBottomMenuActive('music');
+        }
+
+        function openSettings() {
+            loadPage('settings');
+            updateBottomMenuActive('cog');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('vertical-tabs').innerHTML = ''; 
             document.getElementById('content-wrapper').innerHTML = '';
             
             createAddTabButton(); 
-            addTab(defaultUrl); 
+            addTab(); 
+            goHome(); // This will load the home page and set it as active
 
             const initialIframe = document.querySelector('.tab-iframe.active');
             const initialTab = document.querySelector('.vertical-tabs .tab.active');
