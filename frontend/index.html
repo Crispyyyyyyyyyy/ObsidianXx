@@ -956,13 +956,21 @@
         function goHome() {
             const iframe = document.querySelector('.tab-iframe.active');
             if (!iframe) return;
-            iframe.src = defaultUrl; 
-            currentTabState = { type: 'iframe', url: defaultUrl };
-            document.getElementById('search-input').value = "tab://newtab";
+            
+            iframe.src = 'index.html';
+            updateBottomMenuActive('home');
+            
             const activeTab = document.querySelector('.tab.active');
             if (activeTab) {
-                updateTabName(iframe, activeTab); 
+                const tabNameEl = activeTab.querySelector('.tab-name');
+                const tabIconEl = activeTab.querySelector('.tab-icon');
+                if (tabNameEl) tabNameEl.textContent = 'Home';
+                if (tabIconEl) tabIconEl.textContent = 'H';
             }
+            
+            document.getElementById('search-input').value = 'tab://home';
+            updateCurrentTabInfo(iframe);
+            updatePageTitle(iframe);
         }
 
         function goBack() {
@@ -1117,7 +1125,7 @@
         // Add these placeholder HTML contents
         const placeholderPages = {
             home: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="index.html" style="width: 100%; height: 100vh; border: none;"></iframe>
             `,
             games: `
                 <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
