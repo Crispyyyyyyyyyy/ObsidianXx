@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ObsidianX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&family=Outfit:wght@100..900&family=Figtree:wght@100..900&family=Montserrat:wght@100..900&family=Orbitron:wght@400;700&display=swap');
 :root {
@@ -655,16 +653,16 @@
 
         .shooting-star {
             position: absolute;
-            background: linear-gradient(to right, rgba(111, 168, 220, 0) 0%, rgba(111, 168, 220, 0.6) 50%, rgba(111, 168, 220, 0) 100%);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
             border-radius: 50%;
-            animation: shoot 6s linear infinite;
+            animation: shootGalaxyStar 5s linear infinite;
             opacity: 0;
-            width: 2px;
-            height: 2px;
-            box-shadow: 0 0 5px rgba(111, 168, 220, 0.4);
-        }
+            width: 5px;
+            height: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
 
-        @keyframes shoot {
+        @keyframes shootGalaxyStar {
             0% {
                 transform: rotate(45deg) translateX(0);
                 opacity: 0;
@@ -730,13 +728,6 @@
             align-items: center;
             justify-content: center;
         }
-
-        #obsidianx-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
-        }
     </style>
 </head>
 <body>
@@ -746,17 +737,17 @@
 
     <div class="god-rays"></div>
     <div class="main-content">
-        <div class="placeholder-header">
-            <h1 id="obsidianx-title">ObsidianX</h1>
-            <p style="color: var(--text-color-darker);">Template by SSL @ GLSDev</p>
-        </div>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search or enter URL" onkeydown="if(event.key === 'Enter') search(event)">
-            <button onclick="search(event)" title="Search"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="desc left-margin">
-            <p id="uv-error"></p>
-            <pre id="uv-error-code"></pre>
+        <h1>ObsidianX</h1>
+        <div id="search-container">
+            <form id="uv-form">
+                <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden"/>
+                <input id="uv-address" type="text" class="search-bar-home" placeholder="Search or input URL" />
+                <button class="search-button" id="search-button" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+            <div class="desc left-margin">
+                <p id="uv-error"></p>
+                <pre id="uv-error-code"></pre>
+            </div>
         </div>
         <p id="dynamicParagraph"></p>
     </div>
@@ -792,7 +783,7 @@
     </div>
 
     <div id="connection-status">
-        <span id="status-text" class="yellow">Made by SSL</span>
+        <span id="status-text" class="yellow">ObsidianX</span>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
@@ -830,9 +821,18 @@
     </script>
     <script>
     const phrases = [
-        "Made by SSL @ GLSDev",
-        ":D",
-        "Template by SSL @ GLSDev",
+        "Math can wait… this can’t.",
+        "Discord.gg/ObsidianX",
+        "Lag? Blame the school Wi-Fi.",
+        "Ask us anything… except math homework.",
+        "Privacy made Perfect",
+        "If the teacher asks, this is a calculator.",
+        "We'd go faster, but the Wi-Fi said no.",
+        "Warning: May cause extreme fun.",
+        "Running on hopes and 1 bar of Wi-Fi.",
+        "Still loading… unlike your motivation.",
+        "Running smoother than your last group project.",
+        "Blocked? Never heard of her.",
     ]
 
     const paragraph = document.getElementById('dynamicParagraph');
