@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta name="keywords" content="">
+
+    <style>
+        :root {
+            --bg-color-vanta-sky: #0b1028; 
+            --bg-color-vanta-wave: #122a50;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-bg-hover: rgba(255, 255, 255, 0.12);
+            --glass-bg-active: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-color: #f0f0f0;
+            --text-color-darker: #b0b0b0;
+            --accent-color: #6fa8dc; 
+            --accent-color-hover: #8fc1e9;
+            --danger-color: #ff8a80;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius-sm: 6px;
+            --border-radius-md: 10px;
+            --border-radius-lg: 14px;
+            --blur-intensity: 6px; 
+        }
+
+        * {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color-vanta-sky); 
+            color: var(--text-color);
+            position: relative;
+        }
+
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        .shooting-star-container { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shooting-star {
+            position: absolute;
+            background: linear-gradient(to right, rgba(111, 168, 220, 0) 0%, rgba(111, 168, 220, 0.6) 50%, rgba(111, 168, 220, 0) 100%);
+            border-radius: 50%;
+            animation: shoot 6s linear infinite;
+            opacity: 0;
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 5px rgba(111, 168, 220, 0.4);
+        }
+
+        @keyframes shoot {
+            0% { transform: rotate(45deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.7; }
+            100% { transform: rotate(45deg) translateX(calc(100vw + 100vh)); opacity: 0; }
+        }
+
+        .app-container {
+            display: flex;
+            height: 100%;
+            position: relative;
+            padding-top: 56px; 
+            z-index: 1;
+            padding-left: 0;
+        }
+
+        .vertical-tabs {
+            width: 56px; 
+            height: calc(100% - 56px); 
+            overflow-y: auto;
+            overflow-x: hidden;
+            transition: width 0.25s ease-out;
+            z-index: 100;
+            position: absolute;
+            left: 0;
+            top: 56px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-intensity));
+            border-right: 1px solid var(--glass-border);
+            box-shadow: 2px 0 10px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            padding: 4px;
+        }
+
+        .vertical-tabs:hover {
+            width: 230px;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px; 
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 4px 0;
+            border-radius: var(--border-radius-md);
+            background: transparent; 
+            border: 1px solid transparent;
+        }
+        
+        .tab:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border);
+        }
+
+        .tab.active {
+            background: var(--glass-bg-active);
+            border: 1px solid var(--accent-color);
+            box-shadow: inset 0 0 6px rgba(111, 168, 220, 0.25);
+        }
+        
+        .tab.active .tab-icon, .tab.active .tab-name {
+            color: var(--accent-color-hover);
+            font-weight: 500;
+        }
+
+        .tab .tab-icon {
+            min-width: 18px; 
+            height: 18px;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-color-darker);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .tab .tab-name {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-color);
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .tab .close-button {
+            opacity: 0.4;
+            margin-left: 8px;
+            color: var(--text-color-darker);
+            font-size: 15px;
+            transition: opacity 0.15s, color 0.15s, transform 0.15s;
+            padding: 2px;
+        }
+        .vertical-tabs:not(:hover) .tab .close-button {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .tab:hover .close-button { opacity: 0.7; }
+        .tab .close-button:hover { color: var(--danger-color); transform: scale(1.1); }
+
+        .add-tab-button {
+            width: calc(100% - 0px); 
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--accent-color);
+            border: 1px dashed var(--glass-border);
+            font-size: 18px;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            margin: 8px 0 auto 0; 
+            border-radius: var(--border-radius-md);
+            background: transparent;
+        }
+        .add-tab-button:hover {
+            background: var(--glass-bg-hover);
+            color: var(--accent-color-hover);
+            border-color: var(--accent-color);
+            border-style: solid;
+        }
+        .vertical-tabs:not(:hover) .add-tab-button .add-tab-text { display: none; }
+        .add-tab-button .add-tab-icon { display: inline; }
+        .vertical-tabs:hover .add-tab-button .add-tab-icon { margin-right: 6px; }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: calc(100% - 56px);
+            margin-left: 56px;
+            transition: margin-left 0.25s ease-out, width 0.25s ease-out;
+        }
+        .vertical-tabs:hover ~ .main-content {
+            margin-left: 230px;
+            width: calc(100% - 230px);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-intensity));
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 101;
+            gap: 8px;
+            width: 100%;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .current-tab-info {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background: var(--glass-bg-active); 
+            border-radius: var(--border-radius-md);
+            padding: 6px 10px;
+            border: 1px solid var(--glass-border);
+            min-width: 110px;
+            max-width: 200px;
+        }
+
+        .current-tab-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 7px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .current-tab-title {
+            color: var(--text-color);
+            font-size: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            gap: 6px; 
+            align-items: center;
+        }
+
+        .navbar button {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-color-darker);
+            cursor: pointer;
+            font-size: 15px; 
+            transition: color 0.2s, background-color 0.2s, border-color 0.2s, transform 0.1s;
+            padding: 7px; 
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px; 
+            height: 34px;
+        }
+
+        .navbar button:hover {
+            color: var(--accent-color-hover);
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border);
+        }
+        .navbar button:active {
+            background: var(--glass-bg-active);
+            transform: scale(0.9);
+            color: var(--accent-color);
+        }
+
+        .search-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            background: var(--glass-bg);
+            border-radius: var(--border-radius-lg);
+            margin: 0 6px;
+            padding: 1px; 
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(2px); 
+        }
+
+        .search-container input {
+            flex-grow: 1;
+            padding: 7px 12px; 
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            font-size: 13px;
+            outline: none;
+        }
+        .search-container input::placeholder {
+            color: var(--text-color-darker);
+            opacity: 0.7;
+        }
+        
+        .search-container button { 
+            margin-left: 2px;
+            margin-right: 2px; 
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            background: var(--glass-bg-hover);
+        }
+        .search-container button:hover {
+             background: var(--accent-color);
+             color: var(--bg-color-vanta-sky);
+             border-color: transparent;
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+            background: var(--bg-color-vanta-sky); 
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+            background-color: #fff; 
+        }
+        iframe.active { display: block; }
+
+        .menu-button { position: relative; }
+        .menu-button::before { content: '⋮'; font-size: 20px; line-height: 1; }
+
+        .menu {
+            display: block;
+            position: absolute;
+            top: 58px; 
+            right: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-intensity));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            z-index: 1000;
+            min-width: 230px;
+            padding: 6px;
+            opacity: 0;
+            transform: translateY(-8px) scale(0.96);
+            pointer-events: none;
+            transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+        }
+
+        .menu.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 9px 12px;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.15s, color 0.15s;
+            border-radius: var(--border-radius-sm);
+            margin: 1px 0;
+        }
+        .menu-item:hover {
+            background-color: var(--glass-bg-hover);
+            color: var(--accent-color-hover);
+        }
+        .menu-item i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+
+        .menu-item.zoom { display: flex; justify-content: space-between; align-items: center; }
+        .menu-item.zoom .zoom-controls { display: flex; gap: 5px; align-items: center; }
+        .menu-item.zoom button {
+            background: var(--glass-bg-hover);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            font-size: 14px;
+            padding: 4px 7px;
+            border-radius: var(--border-radius-sm);
+            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .menu-item.zoom button:hover { background: var(--accent-color); color: var(--bg-color-vanta-sky); border-color: var(--accent-color); }
+        .menu-item.zoom button:active { transform: scale(0.95); }
+        .menu-item.zoom span { color: var(--text-color); font-size: 13px; min-width: 30px; text-align: center; }
+
+        .menu hr {
+            border: none;
+            height: 1px;
+            background-color: var(--glass-border);
+            margin: 5px 0;
+        }
+
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; } .delay-6 { animation-delay: 0.6s; }
+
+        @media (max-width: 768px) {
+            .vertical-tabs { width: 48px; top: 48px; height: calc(100% - 48px); padding: 2px;}
+            .vertical-tabs:hover { width: 200px; }
+            .main-content { width: calc(100% - 48px); margin-left: 48px; }
+            .vertical-tabs:hover ~ .main-content { margin-left: 200px; width: calc(100% - 200px); }
+            .navbar { padding: 0 8px; height: 48px; gap: 4px;}
+            .app-container { padding-top: 48px; }
+            .current-tab-info { display: none; }
+            .search-container input { font-size: 12px; padding: 5px 8px; }
+            .search-container button { width: 28px; height: 28px; padding: 3px;}
+            .navbar button { padding: 5px; width: 30px; height: 30px; font-size: 14px;}
+            .menu { top: 50px; right: 8px; min-width: 210px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vanta-bg"></div>
+    <div class="shooting-star-container"></div>
+
+    <div class="app-container">
+        <div class="vertical-tabs" id="vertical-tabs">
+            </div>
+        <div class="main-content">
+            <div class="navbar" id="navbar">
+                <div class="navbar-left">
+                    <button onclick="goHome()" title="Home"><i class="fas fa-home"></i></button>
+                    <button onclick="goBack()" title="Back"><i class="fas fa-arrow-left"></i></button>
+                    <button onclick="goForward()" title="Forward"><i class="fas fa-arrow-right"></i></button>
+                    <button onclick="refresh()" title="Refresh"><i class="fas fa-redo"></i></button>
+                </div>
+                <div class="current-tab-info" id="current-tab-info">
+                    <div class="current-tab-icon">S</div>
+                    <div class="current-tab-title">New Tab</div>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search or enter URL" onkeydown="if(event.key === 'Enter') search(event)">
+                    <button onclick="search(event)" title="Search"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="navbar-right">
+                    <button onclick="toggleFullscreen()" title="Fullscreen"><i class="fas fa-expand"></i></button>
+                    <button class="menu-button" onclick="toggleMenu()" title="Menu"></button>
+                </div>
+            </div>
+            <div class="content-wrapper" id="content-wrapper">
+                </div>
+        </div>
+        <div class="menu" id="menu">
+            <div class="menu-item" onclick="addTab()"><i class="fas fa-plus"></i> New Tab</div>
+            <hr>
+            <div class="menu-item zoom">
+                <span><i class="fas fa-search-plus"></i> Zoom</span>
+                <div class="zoom-controls">
+                    <button onclick="zoomOut()" title="Zoom Out">-</button>
+                    <span id="zoom-level">100%</span>
+                    <button onclick="zoomIn()" title="Zoom In">+</button>
+                </div>
+            </div>
+            <hr>
+            <div class="menu-item" onclick="openInNewTab()"><i class="fas fa-external-link-alt"></i> Open in New Tab</div>
+            <div class="menu-item" onclick="openInAboutBlank()"><i class="fas fa-window-restore"></i> Open in about:blank</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.waves.min.js"></script> 
+    <script>
+        window.addEventListener('load', () => {
+            VANTA.WAVES({ 
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: getComputedStyle(document.documentElement).getPropertyValue('--bg-color-vanta-wave').trim(), 
+                shininess: 25.00,
+                waveHeight: 12.00,
+                waveSpeed: 0.7,
+                zoom: 0.95
+            });
+
+            const shootingStarContainer = document.querySelector('.shooting-star-container');
+            const numStars = 8; 
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('shooting-star');
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.animationDelay = `${Math.random() * 9}s`; 
+                star.classList.add(`delay-${Math.floor(Math.random() * 6) + 1}`);
+                shootingStarContainer.appendChild(star);
+            }
+        });
+
+        let tabCounter = 0; 
+        let zoomLevel = 1;
+        const proxyPrefix = "/static/embed.html#"; 
+        const defaultUrl = "/static/"; 
+        let currentTabState = { type: 'iframe', url: defaultUrl };
+        
+        function selectTab(tabElement) {
+            if (!tabElement || !tabElement.parentElement) return;
+            const tabs = document.querySelectorAll('.vertical-tabs .tab');
+            const iframes = document.querySelectorAll('.tab-iframe');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            iframes.forEach(iframe => iframe.classList.remove('active'));
+
+            tabElement.classList.add('active');
+            
+            const tabId = tabElement.dataset.tabId;
+            const iframe = document.getElementById(tabId);
+
+            if (iframe) {
+                iframe.classList.add('active');
+                updateSearchBar(iframe);
+                updatePageTitle(iframe);
+                updateCurrentTabInfo(iframe);
+                currentTabState = { type: 'iframe', url: iframe.src };
+            }
+        }
+
+        function addTab(url = defaultUrl) { 
+            tabCounter++;
+            const tabsContainer = document.getElementById('vertical-tabs');
+            const newTab = document.createElement('div');
+            newTab.classList.add('tab');
+            const newIframeId = `iframe-${tabCounter}`;
+            newTab.dataset.tabId = newIframeId;
+
+            const tabIcon = document.createElement('div');
+            tabIcon.classList.add('tab-icon');
+            tabIcon.textContent = "N";
+
+            const tabName = document.createElement('div');
+            tabName.classList.add('tab-name');
+            tabName.textContent = "New Tab";
+
+            const closeButton = document.createElement('span');
+            closeButton.classList.add('close-button');
+            closeButton.innerHTML = "&times;"; 
+            closeButton.onclick = (e) => { closeTab(e, newTab); };
+
+            newTab.appendChild(tabIcon);
+            newTab.appendChild(tabName);
+            newTab.appendChild(closeButton);
+
+            newTab.onclick = (e) => {
+                if (!e.target.classList.contains('close-button')) {
+                    selectTab(newTab);
+                }
+            };
+            
+            const addTabBtn = tabsContainer.querySelector('.add-tab-button');
+            if (addTabBtn) { 
+                tabsContainer.insertBefore(newTab, addTabBtn);
+            } else {
+                tabsContainer.appendChild(newTab); 
+            }
+
+            const iframe = document.createElement('iframe');
+            iframe.classList.add('tab-iframe');
+            iframe.id = newIframeId;
+            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-downloads');
+            
+            document.getElementById('content-wrapper').appendChild(iframe);
+            
+            currentTabState = { type: 'iframe', url };
+            selectTab(newTab); 
+            iframe.src = encodeURI(url); 
+            updateTabName(iframe, newTab); 
+        }
+
+        function createAddTabButton() {
+            const tabsContainer = document.getElementById('vertical-tabs');
+            const existingButton = tabsContainer.querySelector('.add-tab-button');
+            if (existingButton) existingButton.remove(); 
+
+            const button = document.createElement('button');
+            button.classList.add('add-tab-button');
+            button.onclick = () => addTab();
+            button.innerHTML = `<span class="add-tab-icon">+</span><span class="add-tab-text">New Tab</span>`;
+            tabsContainer.appendChild(button);
+        }
+
+        function closeTab(event, tabElement) {
+            event.stopPropagation();
+            if (!tabElement || !tabElement.dataset) return;
+
+            const tabIdToClose = tabElement.dataset.tabId;
+            const iframeToClose = document.getElementById(tabIdToClose);
+            
+            const wasActive = tabElement.classList.contains('active');
+            
+            tabElement.remove();
+            if (iframeToClose) iframeToClose.remove();
+
+            const remainingTabs = document.querySelectorAll('.vertical-tabs .tab');
+            
+            if (remainingTabs.length === 0) {
+                addTab(); 
+            } else if (wasActive) {
+                selectTab(remainingTabs[0]); 
+            }
+        }
+
+        function updateTabIcon(tabElement, title) {
+            try {
+                const tabIcon = tabElement.querySelector('.tab-icon');
+                if (!tabIcon) return;
+                tabIcon.textContent = title ? title.charAt(0).toUpperCase() : 'N';
+            } catch (e) { /* console.error("Error in updateTabIcon:", e); */ }
+        }
+
+        function updateCurrentTabIcon(title) {
+            try {
+                const currentTabIcon = document.querySelector('#current-tab-info .current-tab-icon');
+                if (!currentTabIcon) return;
+                currentTabIcon.textContent = title ? title.charAt(0).toUpperCase() : 'N';
+            } catch (e) { /* console.error("Error in updateCurrentTabIcon:", e); */ }
+        }
+        
+        function updateTabName(iframe, tabElement) {
+            if (!iframe || !tabElement) return;
+            try {
+                iframe.onload = () => {
+                    try {
+                        const title = iframe.contentDocument?.title || getTabTitleFromUrl(iframe.src);
+                        const tabNameEl = tabElement.querySelector('.tab-name');
+                        if (tabNameEl) tabNameEl.textContent = title.substring(0, 22) || "Tab"; 
+                        
+                        updateTabIcon(tabElement, title);
+                        if (tabElement.classList.contains('active')) {
+                            updateSearchBar(iframe);
+                            updatePageTitle(iframe);
+                            updateCurrentTabInfo(iframe);
+                        }
+                    } catch (e) {
+                        const title = getTabTitleFromUrl(iframe.src);
+                        const tabNameEl = tabElement.querySelector('.tab-name');
+                        if (tabNameEl) tabNameEl.textContent = title.substring(0, 22) || "Tab";
+                        updateTabIcon(tabElement, title);
+                         if (tabElement.classList.contains('active')) {
+                            updateCurrentTabInfo(iframe); 
+                            updatePageTitle(iframe); 
+                            updateSearchBar(iframe); 
+                        }
+                    }
+                };
+                iframe.onerror = () => {
+                    const title = "Error";
+                    const tabNameEl = tabElement.querySelector('.tab-name');
+                    if (tabNameEl) tabNameEl.textContent = title;
+                    updateTabIcon(tabElement, title);
+                    if (tabElement.classList.contains('active')) {
+                       updateCurrentTabInfo(iframe); 
+                       updatePageTitle(iframe);
+                       document.getElementById('search-input').value = getUnproxifiedUrl(iframe.src); 
+                    }
+                };
+
+                if (iframe.src && iframe.src !== 'about:blank' && iframe.src !== 'data:text/html,<h2>Error%20loading%20page</h2>') {
+                    const title = getTabTitleFromUrl(iframe.src);
+                    const tabNameEl = tabElement.querySelector('.tab-name');
+                    if (tabNameEl) tabNameEl.textContent = title.substring(0, 22) || "Tab";
+                    updateTabIcon(tabElement, title);
+                } else if (iframe.src === defaultUrl || iframe.src === 'about:blank') { 
+                     const title = "New Tab";
+                    const tabNameEl = tabElement.querySelector('.tab-name');
+                    if (tabNameEl) tabNameEl.textContent = title;
+                    updateTabIcon(tabElement, title);
+                }
+            } catch (e) { /* console.error("Error in updateTabName (outer):", e); */ }
+        }
+
+        function updateCurrentTabInfo(iframe) {
+            if (!iframe) return;
+            try {
+                const currentTabInfoContainer = document.getElementById('current-tab-info');
+                const currentTabTitleEl = currentTabInfoContainer.querySelector('.current-tab-title');
+                
+                let title = "New Tab";
+                 try {
+                    title = iframe.contentDocument?.title || getTabTitleFromUrl(iframe.src);
+                } catch (e) {
+                    title = getTabTitleFromUrl(iframe.src);
+                }
+
+                if (currentTabTitleEl) currentTabTitleEl.textContent = title.substring(0,22);
+                updateCurrentTabIcon(title); 
+            } catch (e) { /* console.warn("Error in updateCurrentTabInfo:", e.message); */ }
+        }
+
+        function getTabTitleFromUrl(url) {
+            const decodedUrlStr = String(url); 
+            if (!decodedUrlStr || decodedUrlStr === "about:blank" || decodedUrlStr.endsWith(defaultUrl) || decodedUrlStr.endsWith(defaultUrl + "index.html")) return "New Tab";
+            if (decodedUrlStr.startsWith("data:text/html,")) return "Page";
+            
+            let tempUrl = decodeURI(decodedUrlStr);
+            if (tempUrl.startsWith(proxyPrefix)) {
+                tempUrl = tempUrl.substring(proxyPrefix.length);
+            }
+            try {
+                const urlObj = new URL(tempUrl.startsWith('http') || tempUrl.startsWith('file:') ? tempUrl : 'http://' + tempUrl);
+                let hostname = urlObj.hostname;
+                if (hostname.startsWith("www.")) {
+                    hostname = hostname.substring(4);
+                }
+                return hostname || "Page";
+            } catch (e) {
+                const simpleName = tempUrl.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+                return simpleName || "Page";
+            }
+        }
+
+        function updatePageTitle(iframe) {
+            if (!iframe) return;
+            try {
+                const title = iframe.contentDocument?.title || getTabTitleFromUrl(iframe.src);
+                document.title = title;
+            } catch (e) {
+                document.title = getTabTitleFromUrl(iframe.src);
+            }
+        }
+
+        function getUnproxifiedUrl(proxifiedUrlStr) {
+            const proxifiedUrl = String(proxifiedUrlStr);
+            if (!proxifiedUrl) return "";
+            if (proxifiedUrl.startsWith(proxyPrefix)) {
+                return decodeURI(proxifiedUrl.replace(proxyPrefix, ""));
+            }
+            if (proxifiedUrl === defaultUrl || proxifiedUrl.endsWith(defaultUrl + "index.html") || proxifiedUrl === "about:blank") {
+                 return "tab://newtab";
+            }
+            if (proxifiedUrl === "data:text/html,<h2>Error%20loading%20page</h2>") {
+                return "tab://error";
+            }
+            return decodeURI(proxifiedUrl);
+        }
+
+        function search(event) {
+            event.preventDefault();
+            const inputElement = document.getElementById('search-input');
+            const input = inputElement.value.trim();
+            if (!input) return;
+            
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+
+            let urlToLoad;
+            if (input.startsWith('tab://')) {
+                switch (input) {
+                    case 'tab://newtab':
+                        urlToLoad = defaultUrl; 
+                        break;
+                    default:
+                        urlToLoad = input; 
+                }
+            } else {
+                const isLikelyUrl = input.includes('.') || input.startsWith('http') || input.startsWith('file:') || input.includes('localhost') || input.includes(':');
+                urlToLoad = isLikelyUrl ? input : `https://duckduckgo.com/?q=${encodeURIComponent(input)}`;
+                
+                if (!urlToLoad.startsWith('http://') && !urlToLoad.startsWith('https://') && !urlToLoad.startsWith('file:') && !urlToLoad.startsWith('about:')) {
+                    if(isLikelyUrl && !urlToLoad.startsWith('localhost')) { 
+                         urlToLoad = 'http://' + urlToLoad;
+                    }
+                }
+
+                if (!urlToLoad.startsWith('http://localhost') && !urlToLoad.startsWith('https://localhost') && !urlToLoad.startsWith('file:') && !urlToLoad.startsWith('about:') && urlToLoad !== defaultUrl) {
+                     urlToLoad = `${proxyPrefix}${encodeURI(urlToLoad)}`;
+                }
+            }
+            iframe.src = urlToLoad;
+            currentTabState = { type: 'iframe', url: urlToLoad };
+
+            const activeTabElement = document.querySelector('.tab.active');
+            if (activeTabElement) {
+                updateTabName(iframe, activeTabElement); 
+            }
+            inputElement.value = getUnproxifiedUrl(urlToLoad);
+        }
+
+        function goHome() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+            iframe.src = defaultUrl; 
+            currentTabState = { type: 'iframe', url: defaultUrl };
+            document.getElementById('search-input').value = "tab://newtab";
+            const activeTab = document.querySelector('.tab.active');
+            if (activeTab) {
+                updateTabName(iframe, activeTab); 
+            }
+        }
+
+        function goBack() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (iframe && iframe.contentWindow) {
+                try { iframe.contentWindow.history.back(); } catch(e) { /* console.warn("Can't go back:", e.message); */ }
+                setTimeout(() => {
+                    updateSearchBar(iframe);
+                    const activeTab = document.querySelector('.tab.active');
+                    if (activeTab) updateTabName(iframe, activeTab);
+                }, 150); 
+            }
+        }
+
+        function goForward() {
+            const iframe = document.querySelector('.tab-iframe.active');
+             if (iframe && iframe.contentWindow) {
+                try { iframe.contentWindow.history.forward(); } catch(e) { /* console.warn("Can't go forward:", e.message); */ }
+                setTimeout(() => {
+                    updateSearchBar(iframe);
+                    const activeTab = document.querySelector('.tab.active');
+                    if (activeTab) updateTabName(iframe, activeTab);
+                }, 150);
+            }
+        }
+
+        function refresh() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (iframe && iframe.contentWindow) {
+                try { iframe.contentWindow.location.reload(); } catch(e) { /* console.warn("Can't reload:", e.message); */ }
+                 setTimeout(() => { 
+                    updateSearchBar(iframe);
+                    const activeTab = document.querySelector('.tab.active');
+                    if (activeTab) updateTabName(iframe, activeTab);
+                }, 150);
+            }
+        }
+
+        function toggleFullscreen() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+            if (!document.fullscreenElement) {
+                try { iframe.requestFullscreen().catch(err => {}); } catch(e){}
+            } else {
+                if (document.exitFullscreen) { try {document.exitFullscreen();} catch(e){} }
+            }
+        }
+
+        function updateSearchBar(iframe) {
+            if (!iframe) return;
+            try {
+                const currentSrc = iframe.contentWindow?.location?.href || iframe.src;
+                const unproxifiedUrl = getUnproxifiedUrl(currentSrc);
+                document.getElementById('search-input').value = unproxifiedUrl;
+            } catch (e) {
+                 document.getElementById('search-input').value = getUnproxifiedUrl(iframe.src);
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('active');
+        }
+
+        function openInNewTab() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+            const url = getUnproxifiedUrl(iframe.src);
+            if (url && url !== "tab://newtab" && url !== "tab://error") {
+                 window.open(url, '_blank');
+            }
+            toggleMenu();
+        }
+
+        function openInAboutBlank() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+            const urlToOpen = getUnproxifiedUrl(iframe.src);
+             if (urlToOpen && urlToOpen !== "tab://newtab" && urlToOpen !== "tab://error") {
+                const win = window.open('about:blank', '_blank');
+                if (win) {
+                    try {
+                        const title = iframe.contentDocument?.title || getTabTitleFromUrl(iframe.src);
+                        win.document.write(`
+                            <!DOCTYPE html><html lang="en"><head><title>${title}</title><style>body,html{margin:0;padding:0;overflow:hidden;width:100%;height:100%;} iframe{border:none;width:100%;height:100%;margin:0;}</style></head>
+                            <body><iframe src="${urlToOpen}" referrerpolicy="no-referrer" allow="fullscreen"></iframe></body></html>`);
+                        win.document.close();
+                    } catch(e) { /* console.warn("Error writing to new window", e.message); */ }
+                }
+            }
+            toggleMenu();
+        }
+
+        function zoomIn() {
+            zoomLevel = parseFloat((zoomLevel + 0.1).toFixed(2));
+            updateZoom();
+        }
+        function zoomOut() {
+            zoomLevel = parseFloat(Math.max(0.1, zoomLevel - 0.1).toFixed(2));
+            updateZoom();
+        }
+        function updateZoom() {
+            const iframe = document.querySelector('.tab-iframe.active');
+            if (!iframe) return;
+            iframe.style.transform = `scale(${zoomLevel})`;
+            iframe.style.transformOrigin = '0 0';
+            const zoomLevelElement = document.getElementById('zoom-level');
+            if (zoomLevelElement) zoomLevelElement.textContent = `${Math.round(zoomLevel * 100)}%`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('vertical-tabs').innerHTML = ''; 
+            document.getElementById('content-wrapper').innerHTML = '';
+            
+            createAddTabButton(); 
+            addTab(defaultUrl); 
+
+            const initialIframe = document.querySelector('.tab-iframe.active');
+            const initialTab = document.querySelector('.vertical-tabs .tab.active');
+            
+            if (initialIframe && initialTab) {
+                document.getElementById('search-input').value = "tab://newtab"; 
+                 if (initialIframe.contentWindow?.location?.href && initialIframe.contentWindow.location.href !== 'about:blank' && initialIframe.contentWindow.location.href !== 'about:srcdoc') {
+                    const title = initialIframe.contentDocument?.title || getTabTitleFromUrl(initialIframe.src);
+                    const tabNameEl = initialTab.querySelector('.tab-name');
+                    if (tabNameEl) tabNameEl.textContent = title.substring(0, 22) || "Tab";
+                    updateTabIcon(initialTab, title);
+                    updateSearchBar(initialIframe);
+                    updatePageTitle(initialIframe);
+                    updateCurrentTabInfo(initialIframe);
+                 } else {
+                     updateCurrentTabInfo(initialIframe);
+                     updatePageTitle(initialIframe);
+                 }
+            }
+
+            document.addEventListener('click', (e) => {
+                const menu = document.getElementById('menu');
+                const menuButton = document.querySelector('.menu-button');
+                if (menu.classList.contains('active') && !menu.contains(e.target) && !menuButton.contains(e.target)) {
+                    menu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
