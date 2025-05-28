@@ -353,7 +353,9 @@
             flex-grow: 1;
             overflow: hidden;
             position: relative;
-            background: var(--bg-color-vanta-sky); 
+            background: var(--bg-color-vanta-sky);
+            margin: 0;
+            padding: 0;
         }
 
         iframe {
@@ -361,7 +363,12 @@
             height: 100%;
             border: none;
             display: none;
-            background-color: #fff; 
+            background-color: var(--bg-color-vanta-sky);
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         iframe.active { display: block; }
 
@@ -1125,25 +1132,25 @@
         // Add these placeholder HTML contents
         const placeholderPages = {
             home: `
-                <iframe src="/static/index.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="/static/index.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
             games: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
             apps: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
             movies: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
             ai: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
             music: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
             settings: `
-                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+                <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `
         };
 
