@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ObsidianX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&family=Outfit:wght@100..900&family=Figtree:wght@100..900&family=Montserrat:wght@100..900&family=Orbitron:wght@400;700&display=swap');
 :root {
@@ -653,16 +655,16 @@
 
         .shooting-star {
             position: absolute;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to right, rgba(111, 168, 220, 0) 0%, rgba(111, 168, 220, 0.6) 50%, rgba(111, 168, 220, 0) 100%);
             border-radius: 50%;
-            animation: shootGalaxyStar 5s linear infinite;
+            animation: shoot 6s linear infinite;
             opacity: 0;
-            width: 5px;
-            height: 5px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-}
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 5px rgba(111, 168, 220, 0.4);
+        }
 
-        @keyframes shootGalaxyStar {
+        @keyframes shoot {
             0% {
                 transform: rotate(45deg) translateX(0);
                 opacity: 0;
@@ -728,6 +730,13 @@
             align-items: center;
             justify-content: center;
         }
+
+        #obsidianx-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -737,12 +746,13 @@
 
     <div class="god-rays"></div>
     <div class="main-content">
-        <div style="text-align: center;">
-            <h1 style="font-size: 2.5rem; color: var(--accent-color); font-weight: 600; letter-spacing: 1px;">ObsidianX</h1>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search or enter URL" onkeydown="if(event.key === 'Enter') search(event)">
-                <button onclick="search(event)" title="Search"><i class="fas fa-search"></i></button>
-            </div>
+        <div class="placeholder-header">
+            <h1 id="obsidianx-title">ObsidianX</h1>
+            <p style="color: var(--text-color-darker);">Template by SSL @ GLSDev</p>
+        </div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search or enter URL" onkeydown="if(event.key === 'Enter') search(event)">
+            <button onclick="search(event)" title="Search"><i class="fas fa-search"></i></button>
         </div>
         <div class="desc left-margin">
             <p id="uv-error"></p>
