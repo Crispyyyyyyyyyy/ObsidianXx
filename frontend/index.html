@@ -635,7 +635,7 @@
         <button class="icon-button" onclick="openAI()" title="AI Assistant"><i class="fas fa-robot"></i></button>
         <button class="icon-button" onclick="openMusic()" title="Music"><i class="fas fa-music"></i></button>
         <button class="icon-button" onclick="openSettings()" title="Settings"><i class="fas fa-cog"></i></button>
-        <button class="icon-button" onclick="openText()" title="Text Editor"><i class="fas fa-edit"></i></button>
+        <button class="icon-button" onclick="openChat()" title="Chat"><i class="fas fa-comments"></i></button>
         <div class="separator"></div>
         <a href="https://discord.gg/obsidianx" target="_blank" class="icon-button" title="Join our Discord"><i class="fab fa-discord"></i></a>
     </div>
@@ -1120,9 +1120,9 @@
             updateBottomMenuActive('cog');
         }
 
-        function openText() {
-            loadPage('text');
-            updateBottomMenuActive('edit');
+        function openChat() {
+            loadPage('chat');
+            updateBottomMenuActive('comments');
         }
 
         function updateBottomMenuActive(iconName) {
@@ -1158,7 +1158,7 @@
             settings: `
                 <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `,
-            text: `
+            chat: `
                 <iframe src="placeholder.html" style="width: 100%; height: 100vh; border: none; margin: 0; padding: 0; display: block; background: var(--bg-color-vanta-sky); position: absolute; top: 0; left: 0;"></iframe>
             `
         };
