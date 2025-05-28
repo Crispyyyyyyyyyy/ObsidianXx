@@ -77,13 +77,13 @@
         h1 {
             font-size: 180px !important;
             font-weight: 900;
-            background: linear-gradient(to right, #a0a0ff 0%, #8200ff 100%);
+            background: linear-gradient(45deg, #a0a0ff 0%, #8200ff 50%, #9370ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 20px rgba(130, 0, 255, 0.4);
             margin-bottom: 40px;
             font-family: 'Orbitron', sans-serif;
-            transform: scale(1.5);
+            transform: scale(1.125);
 }
 
         h1:hover {
@@ -197,26 +197,27 @@
 }
 
         .search-button {
-            background-color: #8200ff;
+            background-color: transparent;
             border: none;
             border-radius: 50px;
             padding: 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
             position: absolute;
-            right: 5px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px; /* Adjusted to match original if needed */
-            height: 40px; /* Adjusted to match original if needed */
+            width: 40px;
+            height: 40px;
 }
 
         .search-button:hover {
-            background-color: #a0a0ff;
+            background-color: rgba(130, 0, 255, 0.2);
+            box-shadow: 0 0 15px rgba(130, 0, 255, 0.3);
             transform: translateY(-50%) scale(1.05);
 }
         .search-button i {
