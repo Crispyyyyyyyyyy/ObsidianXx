@@ -177,9 +177,9 @@
             padding: 20px 0;
         }
 
-        .icon-bar .material-icons {
-            color: #6f33ea;
-            font-size: 28px;
+        .material-icons {
+            color: #6f33ea !important;
+            font-size: 32px !important;
             cursor: pointer;
             transition: all 0.2s ease;
             padding: 12px;
@@ -189,11 +189,12 @@
             align-items: center;
             justify-content: center;
             border-radius: 8px;
-            background: rgba(111, 51, 234, 0.05);
+            background: rgba(111, 51, 234, 0.1);
+            user-select: none;
         }
 
-        .icon-bar .material-icons:hover {
-            color: #8855f7;
+        .material-icons:hover {
+            color: #8855f7 !important;
             transform: scale(1.1);
             background: rgba(111, 51, 234, 0.2);
         }
@@ -238,7 +239,7 @@
 
     <div class="games-container" id="games-container">
         <div class="game-item" onclick="openGame('Minecraft.html')">
-            <img src="img.Minecraft.jpg">
+            <img src="img.minecraft.jpg">
             <h2>Minecraft</h2>
             <p>Play around in a blocky sandbox game.</p>
         </div>
@@ -265,9 +266,9 @@
     <div class="game-modal" id="game-modal">
         <iframe class="game-iframe" id="game-iframe" src=""></iframe>
         <div class="icon-bar">
-            <span class="material-icons" onclick="closeGame();" title="Close Game">close</span>
-            <span class="material-icons" onclick="openGameInNewTab();" title="Open in New Tab">open_in_new</span>
-            <span class="material-icons" onclick="toggleFullScreen();" title="Full Screen">fullscreen</span>
+            <span class="material-icons" onclick="closeGame()">cancel</span>
+            <span class="material-icons" onclick="openGameInNewTab()">launch</span>
+            <span class="material-icons" onclick="toggleFullScreen()">open_in_full</span>
         </div>
     </div>
 
