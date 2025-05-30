@@ -144,33 +144,37 @@
         .game-modal {
             display: none;
             position: fixed;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
+            width: 80%;
+            height: 80%;
             background-color: #111;
             z-index: 1000;
             border-radius: 20px;
             border: 3px solid #6f33ea;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(111, 51, 234, 0.3);
+            display: flex;
+            flex-direction: row;
         }
 
         .game-iframe {
-            width: 100%;
-            height: calc(100% - 50px);
+            width: calc(100% - 60px);
+            height: 100%;
             border: none;
         }
 
         .icon-bar {
-            height: 50px;
+            width: 60px;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 20px;
             background-color: rgba(17, 17, 17, 0.9);
-            border-top: 2px solid #6f33ea;
+            border-left: 2px solid #6f33ea;
         }
 
         .icon-bar i {
@@ -178,11 +182,14 @@
             font-size: 1.5em;
             cursor: pointer;
             transition: all 0.2s ease;
+            padding: 10px;
         }
 
         .icon-bar i:hover {
             color: #8855f7;
             transform: scale(1.2);
+            background: rgba(111, 51, 234, 0.1);
+            border-radius: 8px;
         }
 
         @media (max-width: 768px) {
