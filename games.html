@@ -171,36 +171,34 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 35px;
+            gap: 25px;
             background-color: rgba(17, 17, 17, 0.9);
             border-left: 2px solid #6f33ea;
-            padding: 20px 0;
         }
 
-        .button-icon {
+        .control-button {
             color: #6f33ea;
-            font-size: 24px;
+            font-size: 22px;
             font-family: Arial, sans-serif;
             cursor: pointer;
             transition: all 0.2s ease;
-            padding: 12px;
-            width: 48px;
-            height: 48px;
+            padding: 10px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 8px;
             background: rgba(111, 51, 234, 0.1);
-            border: none;
+            border: 2px solid rgba(111, 51, 234, 0.2);
             outline: none;
-            text-decoration: none;
-            font-weight: bold;
         }
 
-        .button-icon:hover {
+        .control-button:hover {
             color: #8855f7;
             transform: scale(1.1);
             background: rgba(111, 51, 234, 0.2);
+            border-color: #6f33ea;
         }
 
         @media (max-width: 768px) {
@@ -270,9 +268,9 @@
     <div class="game-modal" id="game-modal">
         <iframe class="game-iframe" id="game-iframe" src=""></iframe>
         <div class="icon-bar">
-            <button class="button-icon" onclick="closeGame()">✕</button>
-            <button class="button-icon" onclick="openGameInNewTab()">↗</button>
-            <button class="button-icon" onclick="toggleFullScreen()">⛶</button>
+            <button class="control-button" onclick="closeGame()">✕</button>
+            <button class="control-button" onclick="openGameInNewTab()">↗</button>
+            <button class="control-button" onclick="toggleFullScreen()">⛶</button>
         </div>
     </div>
 
