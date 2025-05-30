@@ -225,7 +225,7 @@
 
     <div class="games-container" id="games-container">
         <div class="game-item" onclick="openGame('minecraft.html')">
-            <img src="img.minecraft.jpg">
+            <img src="https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-300x465.jpg">
             <h2>Minecraft</h2>
             <p>Play around in a blocky sandbox game.</p>
         </div>
@@ -329,7 +329,10 @@
 
         // Game functionality
         function openGame(gameFile) {
-            document.getElementById('game-iframe').src = gameFile;
+            const currentPath = window.location.pathname;
+            const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
+            const gamePath = currentDir + '/' + gameFile;
+            document.getElementById('game-iframe').src = gamePath;
             document.getElementById('game-modal').style.display = 'block';
         }
 
@@ -375,4 +378,3 @@
 </body>
 
 </html>
- 
