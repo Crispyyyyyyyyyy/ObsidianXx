@@ -155,46 +155,51 @@
             border: 3px solid #6f33ea;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(111, 51, 234, 0.3);
-            flex-direction: row;
+        }
+
+        .game-modal.active {
+            display: flex;
         }
 
         .game-iframe {
-            width: calc(100% - 60px);
+            flex-grow: 1;
             height: 100%;
             border: none;
         }
 
-        .icon-bar {
-            width: 60px;
-            height: 100%;
+        .side-menu {
+            width: 50px;
+            background: #1a1a1a;
+            border-left: 2px solid #6f33ea;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 25px;
-            background-color: rgba(17, 17, 17, 0.9);
-            border-left: 2px solid #6f33ea;
+            padding: 15px 0;
+            gap: 20px;
         }
 
-        .icon-bar i {
+        .menu-button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(111, 51, 234, 0.1);
             color: #6f33ea;
-            font-size: 24px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 12px;
-            width: 45px;
-            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            background: rgba(111, 51, 234, 0.1);
+            transition: all 0.3s ease;
+            font-size: 18px;
         }
 
-        .icon-bar i:hover {
-            color: #8855f7;
-            transform: scale(1.1);
+        .menu-button:hover {
             background: rgba(111, 51, 234, 0.2);
+            transform: scale(1.1);
+        }
+
+        .menu-button i {
+            line-height: 0;
         }
 
         @media (max-width: 768px) {
@@ -263,10 +268,16 @@
 
     <div class="game-modal" id="game-modal">
         <iframe class="game-iframe" id="game-iframe" src=""></iframe>
-        <div class="icon-bar">
-            <i class="fas fa-times" onclick="closeGame()"></i>
-            <i class="fas fa-external-link-alt" onclick="openGameInNewTab()"></i>
-            <i class="fas fa-expand" onclick="toggleFullScreen()"></i>
+        <div class="side-menu">
+            <button class="menu-button" onclick="closeGame()">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="menu-button" onclick="openGameInNewTab()">
+                <i class="fas fa-external-link-alt"></i>
+            </button>
+            <button class="menu-button" onclick="toggleFullScreen()">
+                <i class="fas fa-expand"></i>
+            </button>
         </div>
     </div>
 
@@ -345,7 +356,7 @@
             const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
             const gamePath = currentDir + '/' + gameFile;
             document.getElementById('game-iframe').src = gamePath;
-            document.getElementById('game-modal').style.display = 'block';
+            document.getElementById('game-modal').style.display = 'flex';
         }
 
         function closeGame() {
@@ -390,4 +401,3 @@
 </body>
 
 </html>
- 
