@@ -1,1 +1,1 @@
-Obsidian Rocks! No but like litterally.. its a rock :/ (skid=ip leak)
+Obsidian Rocks! No but like litterally.. its a rock :/
