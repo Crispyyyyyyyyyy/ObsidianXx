@@ -319,7 +319,7 @@
             <p>Play Fortnite battle royale on the cloud.</p>
         </div>
 
-<div class="game-item" onclick="openGame('clrocketsoccerderby.html')">
+        <div class="game-item" onclick="openGame('clrocketsoccerderby.html')">
             <img src="Rocketl.jpg">
             <h2>Rocket League</h2>
             <p>Classic game of soccer with cars.</p>
@@ -412,9 +412,7 @@
 
         // Game functionality
         function openGame(gameFile) {
-            const currentPath = window.location.pathname;
-            const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/'));
-            const gamePath = currentDir + '/' + gameFile;
+            const gamePath = gameFile.startsWith('/') ? gameFile : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/' + gameFile;
             document.getElementById('game-iframe').src = gamePath;
             document.getElementById('game-modal').style.display = 'flex';
         }
