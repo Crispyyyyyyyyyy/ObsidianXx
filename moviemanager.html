@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Media Hub</title>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			background-color: #000000;
+			color: #f0f0f0;
+			font-family: 'Poppins', sans-serif;
+			min-height: 100vh;
+			padding: 10px;
+			overflow: hidden;
+			position: relative;
+		}
+
+		#particles-js {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
+
+		/* Media Picker Modal */
+		.media-picker-modal {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.95);
+			backdrop-filter: blur(10px);
+			z-index: 9999;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+		}
+
+		.media-picker-content {
+			background: rgba(111, 51, 234, 0.1);
+			backdrop-filter: blur(20px);
+			border: 2px solid #6f33ea;
+			border-radius: 25px;
+			padding: 3rem 2rem;
+			max-width: 600px;
+			text-align: center;
+			box-shadow: 0 20px 40px rgba(111, 51, 234, 0.3);
+		}
+
+		.media-picker-content h2 {
+			color: #6f33ea;
+			font-size: 2rem;
+			margin-bottom: 1.5rem;
+			text-shadow: 0 0 20px rgba(111, 51, 234, 0.5);
+		}
+
+		.media-picker-content p {
+			font-size: 1.3rem;
+			line-height: 1.6;
+			margin-bottom: 3rem;
+			color: #f0f0f0;
+		}
+
+		.media-buttons {
+			display: flex;
+			gap: 2rem;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+
+		.media-btn {
+			padding: 1.5rem 2.5rem;
+			border: none;
+			border-radius: 25px;
+			font-size: 1.3rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			min-width: 150px;
+			text-decoration: none;
+			display: inline-block;
+			text-align: center;
+			position: relative;
+			overflow: hidden;
+			background: #6f33ea;
+			color: white;
+			border: 2px solid #6f33ea;
+		}
+
+		.media-btn:hover {
+			background: #8855f7;
+			border-color: #8855f7;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 25px rgba(111, 51, 234, 0.4);
+		}
+
+		.media-btn::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+			transition: 0.5s;
+		}
+
+		.media-btn:hover::before {
+			left: 100%;
+		}
+
+		.media-icon {
+			display: block;
+			font-size: 2rem;
+			margin-bottom: 0.5rem;
+		}
+
+		/* Responsive design */
+		@media (max-width: 768px) {
+			.media-picker-content {
+				padding: 2rem 1.5rem;
+			}
+
+			.media-picker-content h2 {
+				font-size: 1.5rem;
+			}
+
+			.media-picker-content p {
+				font-size: 1.1rem;
+			}
+
+			.media-buttons {
+				flex-direction: column;
+				align-items: center;
+				gap: 1.5rem;
+			}
+
+			.media-btn {
+				width: 100%;
+				max-width: 300px;
+				font-size: 1.1rem;
+				padding: 1.2rem 2rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div id="particles-js"></div>
+
+	<!-- Media Picker Modal -->
+	<div class="media-picker-modal" id="mediaPickerModal">
+		<div class="media-picker-content">
+			<h2>Welcome to Media Hub</h2>
+			<p>Which type of media would you like to watch?</p>
+			<div class="media-buttons">
+				<a href="https://example.com" target="_self" class="media-btn movies">
+					<span class="media-icon"><i class="fas fa-film"></i></span>
+					Movies
+				</a>
+				<a href="https://example.com" target="_self" class="media-btn tv-shows">
+					<span class="media-icon"><i class="fas fa-tv"></i></span>
+					TV Shows
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Wait for DOM to load, then initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#6f33ea'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.8,
+                    random: false,
+                    anim: {
+                        enable: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#6f33ea',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'bottom',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: false,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+        });
+	</script>
+</body>
+
+</html>
