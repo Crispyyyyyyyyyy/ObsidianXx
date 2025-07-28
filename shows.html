@@ -478,7 +478,6 @@
 		</div>
 	</main>
 
-	<!-- TV Show Player Overlay -->
 	<div class="show-player-overlay" id="showPlayerOverlay">
 		<div class="show-player-container">
 			<button class="close-player-btn" id="closePlayerBtn">×</button>
@@ -488,293 +487,293 @@
 
 	<script>
 		// Initialize particles.js
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#6f33ea'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false,
-                    anim: {
-                        enable: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: {
-                        enable: false
-                    }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#6f33ea',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'bottom',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: false,
-                        mode: 'repulse'
-                    },
-                    onclick: {
-                        enable: false,
-                        mode: 'push'
-                    },
-                    resize: true
-                }
-            },
-            retina_detect: true
-        });
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#6f33ea'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: {
+                        enable: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#6f33ea',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'bottom',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: false,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
 
 		const API_KEY = "79c1de8a90112f2951a563bb7ce87969";
-        const BASE_URL = "https://api.themoviedb.org/3";
-        const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
-        
-        const searchInput = document.getElementById("searchInput");
-        const showsGrid = document.getElementById("showsGrid");
-        const sectionTitle = document.getElementById("sectionTitle");
-        const showPlayerOverlay = document.getElementById("showPlayerOverlay");
-        const showPlayerIframe = document.getElementById("showPlayerIframe");
-        const closePlayerBtn = document.getElementById("closePlayerBtn");
+        const BASE_URL = "https://api.themoviedb.org/3";
+        const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
+        
+        const searchInput = document.getElementById("searchInput");
+        const showsGrid = document.getElementById("showsGrid");
+        const sectionTitle = document.getElementById("sectionTitle");
+        const showPlayerOverlay = document.getElementById("showPlayerOverlay");
+        const showPlayerIframe = document.getElementById("showPlayerIframe");
+        const closePlayerBtn = document.getElementById("closePlayerBtn");
 
-        let searchTimeout;
-        let currentGenre = "10759"; // Default to Action & Adventure
+        let searchTimeout;
+        let currentGenre = "10759"; // Default to Action & Adventure
 
-        const genreTitles = {
-            "10759": "Action & Adventure Shows",
-            "35": "Comedy Shows",
-            "18": "Drama Shows", 
-            "9648": "Mystery Shows",
-            "80": "Crime Shows",
-            "10765": "Sci-Fi & Fantasy Shows",
-            "10751": "Family Shows",
-            "10764": "Reality Shows",
-            "99": "Documentary Shows",
-            "10766": "Soap Shows",
-            "10768": "War & Politics Shows"
-        };
+        const genreTitles = {
+            "10759": "Action & Adventure Shows",
+            "35": "Comedy Shows",
+            "18": "Drama Shows", 
+            "9648": "Mystery Shows",
+            "80": "Crime Shows",
+            "10765": "Sci-Fi & Fantasy Shows",
+            "10751": "Family Shows",
+            "10764": "Reality Shows",
+            "99": "Documentary Shows",
+            "10766": "Soap Shows",
+            "10768": "War & Politics Shows"
+        };
 
-        // TV Genre mapping for display
-        const genreMap = {
-            10759: "Action & Adventure",
-            16: "Animation",
-            35: "Comedy",
-            80: "Crime",
-            99: "Documentary",
-            18: "Drama",
-            10751: "Family",
-            10762: "Kids",
-            9648: "Mystery",
-            10763: "News",
-            10764: "Reality",
-            10765: "Sci-Fi & Fantasy",
-            10766: "Soap",
-            10767: "Talk",
-            10768: "War & Politics",
-            37: "Western"
-        };
+        // TV Genre mapping for display
+        const genreMap = {
+            10759: "Action & Adventure",
+            16: "Animation",
+            35: "Comedy",
+            80: "Crime",
+            99: "Documentary",
+            18: "Drama",
+            10751: "Family",
+            10762: "Kids",
+            9648: "Mystery",
+            10763: "News",
+            10764: "Reality",
+            10765: "Sci-Fi & Fantasy",
+            10766: "Soap",
+            10767: "Talk",
+            10768: "War & Politics",
+            37: "Western"
+        };
 
-        async function fetchShowsByGenre(genreId) {
-            try {
-                showsGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-                const response = await fetch(`${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`);
-                const data = await response.json();
-                
-                displayShows(data.results);
-                sectionTitle.textContent = genreTitles[genreId];
-                currentGenre = genreId;
-            } catch (error) {
-                console.error(`Error fetching genre ${genreId} shows:`, error);
-                showError();
-            }
-        }
+        async function fetchShowsByGenre(genreId) {
+            try {
+                showsGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                const response = await fetch(`${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`);
+                const data = await response.json();
+                
+                displayShows(data.results);
+                sectionTitle.textContent = genreTitles[genreId];
+                currentGenre = genreId;
+            } catch (error) {
+                console.error(`Error fetching genre ${genreId} shows:`, error);
+                showError();
+            }
+        }
 
-        async function fetchPopularShows() {
-            await fetchShowsByGenre("10759"); // Default to Action & Adventure
-        }
+        async function fetchPopularShows() {
+            await fetchShowsByGenre("10759"); // Default to Action & Adventure
+        }
 
-        async function searchShows(query) {
-            if (!query.trim()) {
-                fetchShowsByGenre(currentGenre);
-                return;
-            }
+        async function searchShows(query) {
+            if (!query.trim()) {
+                fetchShowsByGenre(currentGenre);
+                return;
+            }
 
-            try {
-                showsGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-                const response = await fetch(`${BASE_URL}/search/tv?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
-                const data = await response.json();
-                
-                if (data.results.length === 0) {
-                    showNoResults(query);
-                } else {
-                    displayShows(data.results);
-                    sectionTitle.textContent = `Search Results for "${query}"`;
-                }
-            } catch (error) {
-                console.error("Error searching shows:", error);
-                showError();
-            }
-        }
+            try {
+                showsGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                const response = await fetch(`${BASE_URL}/search/tv?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                
+                if (data.results.length === 0) {
+                    showNoResults(query);
+                } else {
+                    displayShows(data.results);
+                    sectionTitle.textContent = `Search Results for "${query}"`;
+                }
+            } catch (error) {
+                console.error("Error searching shows:", error);
+                showError();
+            }
+        }
 
-        function displayShows(shows) {
-            showsGrid.innerHTML = "";
-            
-            shows.forEach(show => {
-                if (!show.poster_path) return; // Skip shows without posters
-                
-                const showCard = document.createElement("div");
-                showCard.className = "show-card";
-                showCard.onclick = () => {
-                    playShow(show);
-                };
+        function displayShows(shows) {
+            showsGrid.innerHTML = "";
+            
+            shows.forEach(show => {
+                if (!show.poster_path) return; // Skip shows without posters
+                
+                const showCard = document.createElement("div");
+                showCard.className = "show-card";
+                showCard.onclick = () => {
+                    playShow(show);
+                };
 
-                const releaseYear = show.first_air_date ? new Date(show.first_air_date).getFullYear() : 'N/A';
-                const rating = show.vote_average ? show.vote_average.toFixed(1) : 'N/A';
-                
-                // Get genres for this show as individual badges
-                const showGenres = show.genre_ids ? 
-                    show.genre_ids.map(id => genreMap[id]).filter(Boolean).map(genre => 
-                        `<span class="genre-badge">${genre}</span>`
-                    ).join('') : '';
+                const releaseYear = show.first_air_date ? new Date(show.first_air_date).getFullYear() : 'N/A';
+                const rating = show.vote_average ? show.vote_average.toFixed(1) : 'N/A';
+                
+                // Get genres for this show as individual badges
+                const showGenres = show.genre_ids ? 
+                    show.genre_ids.map(id => genreMap[id]).filter(Boolean).map(genre => 
+                        `<span class="genre-badge">${genre}</span>`
+                    ).join('') : '';
 
-                showCard.innerHTML = `
-                    <img src="${IMG_BASE_URL}${show.poster_path}" alt="${show.name}" class="show-poster">
-                    <div class="show-rating">⭐ ${rating}</div>
-                    <div class="play-now-btn" title="Play Show"></div>
-                    <div class="show-overlay">
-                        <div class="show-title">${show.name}</div>
-                        <div class="show-info">
-                            <div class="show-year">${releaseYear}</div>
-                            ${showGenres ? `<div class="show-genres">${showGenres}</div>` : ''}
-                        </div>
-                    </div>
-                `;
+                showCard.innerHTML = `
+                    <img src="${IMG_BASE_URL}${show.poster_path}" alt="${show.name}" class="show-poster">
+                    <div class="show-rating">⭐ ${rating}</div>
+                    <div class="play-now-btn" title="Play Show"></div>
+                    <div class="show-overlay">
+                        <div class="show-title">${show.name}</div>
+                        <div class="show-info">
+                            <div class="show-year">${releaseYear}</div>
+                            ${showGenres ? `<div class="show-genres">${showGenres}</div>` : ''}
+                        </div>
+                    </div>
+                `;
 
-                showsGrid.appendChild(showCard);
-            });
-        }
+                showsGrid.appendChild(showCard);
+            });
+        }
 
-        function playShow(show) {
-            // Directly play the show starting from Season 1, Episode 1
-            showPlayerIframe.src = `https://vidfast.pro/tv/${show.id}/1/1?autoPlay=true`;
-            showPlayerOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        function playShow(show) {
+            // Directly play the show starting from Season 1, Episode 1
+            showPlayerIframe.src = `https://vidfast.pro/tv/${show.id}/1/1?autoPlay=true`;
+            showPlayerOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-        function closeShowPlayer() {
-            showPlayerOverlay.classList.remove('active');
-            showPlayerIframe.src = ''; // Stop the video
-            document.body.style.overflow = 'auto';
-        }
+        function closeShowPlayer() {
+            showPlayerOverlay.classList.remove('active');
+            showPlayerIframe.src = ''; // Stop the video
+            document.body.style.overflow = 'auto';
+        }
 
-        function showNoResults(query) {
-            showsGrid.innerHTML = `
-                <div class="no-results">
-                    <h3>No TV shows found</h3>
-                    <p>We couldn't find any shows matching "${query}". Try a different search term.</p>
-                </div>
-            `;
-            sectionTitle.textContent = "Search Results";
-        }
+        function showNoResults(query) {
+            showsGrid.innerHTML = `
+                <div class="no-results">
+                    <h3>No TV shows found</h3>
+                    <p>We couldn't find any shows matching "${query}". Try a different search term.</p>
+                </div>
+            `;
+            sectionTitle.textContent = "Search Results";
+        }
 
-        function showError() {
-            showsGrid.innerHTML = `
-                <div class="no-results">
-                    <h3>Something went wrong</h3>
-                    <p>We're having trouble loading TV shows right now. Please try again later.</p>
-                </div>
-            `;
-        }
+        function showError() {
+            showsGrid.innerHTML = `
+                <div class="no-results">
+                    <h3>Something went wrong</h3>
+                    <p>We're having trouble loading TV shows right now. Please try again later.</p>
+                </div>
+            `;
+        }
 
-        // Category tab functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryTabs = document.querySelectorAll(".category-tab");
-            
-            categoryTabs.forEach(tab => {
-                tab.addEventListener("click", () => {
-                    // Clear search input when switching categories
-                    searchInput.value = "";
-                    
-                    // Update active tab
-                    categoryTabs.forEach(t => t.classList.remove("active"));
-                    tab.classList.add("active");
-                    
-                    // Fetch shows for selected genre
-                    const genreId = tab.dataset.genre;
-                    fetchShowsByGenre(genreId);
-                });
-            });
-        });
+        // Category tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryTabs = document.querySelectorAll(".category-tab");
+            
+            categoryTabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    // Clear search input when switching categories
+                    searchInput.value = "";
+                    
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                    
+                    // Fetch shows for selected genre
+                    const genreId = tab.dataset.genre;
+                    fetchShowsByGenre(genreId);
+                });
+            });
+        });
 
-        // Search functionality with debouncing
-        searchInput.addEventListener("input", (e) => {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-            
-            searchTimeout = setTimeout(() => {
-                searchShows(query);
-            }, 500);
-        });
+        // Search functionality with debouncing
+        searchInput.addEventListener("input", (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            
+            searchTimeout = setTimeout(() => {
+                searchShows(query);
+            }, 500);
+        });
 
-        // Enter key search
-        searchInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                clearTimeout(searchTimeout);
-                searchShows(e.target.value.trim());
-            }
-        });
+        // Enter key search
+        searchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                clearTimeout(searchTimeout);
+                searchShows(e.target.value.trim());
+            }
+        });
 
-        // Player event listeners
-        closePlayerBtn.addEventListener('click', closeShowPlayer);
-        
-        // Close player when clicking outside the iframe
-        showPlayerOverlay.addEventListener('click', (e) => {
-            if (e.target === showPlayerOverlay) {
-                closeShowPlayer();
-            }
-        });
+        // Player event listeners
+        closePlayerBtn.addEventListener('click', closeShowPlayer);
+        
+        // Close player when clicking outside the iframe
+        showPlayerOverlay.addEventListener('click', (e) => {
+            if (e.target === showPlayerOverlay) {
+                closeShowPlayer();
+            }
+        });
 
-        // Close with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (showPlayerOverlay.classList.contains('active')) {
-                    closeShowPlayer();
-                }
-            }
-        });
+        // Close with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (showPlayerOverlay.classList.contains('active')) {
+                    closeShowPlayer();
+                }
+            }
+        });
 
-        // Initialize with popular shows
-        fetchPopularShows();
+        // Initialize with popular shows
+        fetchPopularShows();
 	</script>
 </body>
 
