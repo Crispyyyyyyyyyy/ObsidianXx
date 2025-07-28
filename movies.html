@@ -476,7 +476,6 @@
 		</div>
 	</main>
 
-	<!-- Movie Player Overlay -->
 	<div class="movie-player-overlay" id="moviePlayerOverlay">
 		<div class="movie-player-container">
 			<button class="close-player-btn" id="closePlayerBtn">×</button>
@@ -486,292 +485,292 @@
 
 	<script>
 		// Initialize particles.js
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#6f33ea'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false,
-                    anim: {
-                        enable: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: {
-                        enable: false
-                    }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#6f33ea',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'bottom',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: false,
-                        mode: 'repulse'
-                    },
-                    onclick: {
-                        enable: false,
-                        mode: 'push'
-                    },
-                    resize: true
-                }
-            },
-            retina_detect: true
-        });
+		particlesJS('particles-js', {
+			particles: {
+				number: {
+					value: 80,
+					density: {
+						enable: true,
+						value_area: 800
+					}
+				},
+				color: {
+					value: '#6f33ea'
+				},
+				shape: {
+					type: 'circle'
+				},
+				opacity: {
+					value: 0.5,
+					random: false,
+					anim: {
+						enable: false
+					}
+				},
+				size: {
+					value: 3,
+					random: true,
+					anim: {
+						enable: false
+					}
+				},
+				line_linked: {
+					enable: true,
+					distance: 150,
+					color: '#6f33ea',
+					opacity: 0.4,
+					width: 1
+				},
+				move: {
+					enable: true,
+					speed: 2,
+					direction: 'bottom',
+					random: true,
+					straight: false,
+					out_mode: 'out',
+					bounce: false,
+					attract: {
+						enable: false,
+						rotateX: 600,
+						rotateY: 1200
+					}
+				}
+			},
+			interactivity: {
+				detect_on: 'canvas',
+				events: {
+					onhover: {
+						enable: false,
+						mode: 'repulse'
+					},
+					onclick: {
+						enable: false,
+						mode: 'push'
+					},
+					resize: true
+				}
+			},
+			retina_detect: true
+		});
 
 		const API_KEY = "79c1de8a90112f2951a563bb7ce87969";
-        const BASE_URL = "https://api.themoviedb.org/3";
-        const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
-        
-        const searchInput = document.getElementById("searchInput");
-        const moviesGrid = document.getElementById("moviesGrid");
-        const sectionTitle = document.getElementById("sectionTitle");
-        const moviePlayerOverlay = document.getElementById("moviePlayerOverlay");
-        const moviePlayerIframe = document.getElementById("moviePlayerIframe");
-        const closePlayerBtn = document.getElementById("closePlayerBtn");
+		const BASE_URL = "https://api.themoviedb.org/3";
+		const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-        let searchTimeout;
-        let currentGenre = "28"; // Default to Action
+		const searchInput = document.getElementById("searchInput");
+		const moviesGrid = document.getElementById("moviesGrid");
+		const sectionTitle = document.getElementById("sectionTitle");
+		const moviePlayerOverlay = document.getElementById("moviePlayerOverlay");
+		const moviePlayerIframe = document.getElementById("moviePlayerIframe");
+		const closePlayerBtn = document.getElementById("closePlayerBtn");
 
-        const genreTitles = {
-            "28": "Action Movies",
-            "53": "Thriller Movies",
-            "9648": "Mystery Movies", 
-            "27": "Horror Movies",
-            "878": "Sci-Fi Movies",
-            "35": "Comedy Movies",
-            "10751": "Family Movies",
-            "12": "Adventure Movies",
-            "18": "Drama Movies",
-            "14": "Fantasy Movies",
-            "80": "Crime Movies"
-        };
+		let searchTimeout;
+		let currentGenre = "28"; // Default to Action
 
-        // Movie Genre mapping for display
-        const genreMap = {
-            28: "Action",
-            12: "Adventure",
-            16: "Animation",
-            35: "Comedy",
-            80: "Crime",
-            99: "Documentary",
-            18: "Drama",
-            10751: "Family",
-            14: "Fantasy",
-            36: "History",
-            27: "Horror",
-            10402: "Music",
-            9648: "Mystery",
-            10749: "Romance",
-            878: "Sci-Fi",
-            10770: "TV Movie",
-            53: "Thriller",
-            10752: "War",
-            37: "Western"
-        };
+		const genreTitles = {
+			"28": "Action Movies",
+			"53": "Thriller Movies",
+			"9648": "Mystery Movies",
+			"27": "Horror Movies",
+			"878": "Sci-Fi Movies",
+			"35": "Comedy Movies",
+			"10751": "Family Movies",
+			"12": "Adventure Movies",
+			"18": "Drama Movies",
+			"14": "Fantasy Movies",
+			"80": "Crime Movies"
+		};
 
-        async function fetchMoviesByGenre(genreId) {
-            try {
-                moviesGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-                const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`);
-                const data = await response.json();
-                
-                displayMovies(data.results);
-                sectionTitle.textContent = genreTitles[genreId];
-                currentGenre = genreId;
-            } catch (error) {
-                console.error(`Error fetching genre ${genreId} movies:`, error);
-                showError();
-            }
-        }
+		// Movie Genre mapping for display
+		const genreMap = {
+			28: "Action",
+			12: "Adventure",
+			16: "Animation",
+			35: "Comedy",
+			80: "Crime",
+			99: "Documentary",
+			18: "Drama",
+			10751: "Family",
+			14: "Fantasy",
+			36: "History",
+			27: "Horror",
+			10402: "Music",
+			9648: "Mystery",
+			10749: "Romance",
+			878: "Sci-Fi",
+			10770: "TV Movie",
+			53: "Thriller",
+			10752: "War",
+			37: "Western"
+		};
 
-        async function fetchPopularMovies() {
-            await fetchMoviesByGenre("28"); // Default to Action
-        }
+		async function fetchMoviesByGenre(genreId) {
+			try {
+				moviesGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+				const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`);
+				const data = await response.json();
 
-        async function searchMovies(query) {
-            if (!query.trim()) {
-                fetchMoviesByGenre(currentGenre);
-                return;
-            }
+				displayMovies(data.results);
+				sectionTitle.textContent = genreTitles[genreId];
+				currentGenre = genreId;
+			} catch (error) {
+				console.error(`Error fetching genre ${genreId} movies:`, error);
+				showError();
+			}
+		}
 
-            try {
-                moviesGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-                const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
-                const data = await response.json();
-                
-                if (data.results.length === 0) {
-                    showNoResults(query);
-                } else {
-                    displayMovies(data.results);
-                    sectionTitle.textContent = `Search Results for "${query}"`;
-                }
-            } catch (error) {
-                console.error("Error searching movies:", error);
-                showError();
-            }
-        }
+		async function fetchPopularMovies() {
+			await fetchMoviesByGenre("28"); // Default to Action
+		}
 
-        function displayMovies(movies) {
-            moviesGrid.innerHTML = "";
-            
-            movies.forEach(movie => {
-                if (!movie.poster_path) return; // Skip movies without posters
-                
-                const movieCard = document.createElement("div");
-                movieCard.className = "movie-card";
-                movieCard.onclick = () => {
-                    openMoviePlayer(movie.id);
-                };
+		async function searchMovies(query) {
+			if (!query.trim()) {
+				fetchMoviesByGenre(currentGenre);
+				return;
+			}
 
-                const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
-                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-                
-                // Get genres for this movie as individual badges
-                const movieGenres = movie.genre_ids ? 
-                    movie.genre_ids.map(id => genreMap[id]).filter(Boolean).map(genre => 
-                        `<span class="genre-badge">${genre}</span>`
-                    ).join('') : '';
+			try {
+				moviesGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+				const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+				const data = await response.json();
 
-                movieCard.innerHTML = `
-                    <img src="${IMG_BASE_URL}${movie.poster_path}" alt="${movie.title}" class="movie-poster">
-                    <div class="movie-rating">⭐ ${rating}</div>
-                    <div class="movie-overlay">
-                        <div class="movie-title">${movie.title}</div>
-                        <div class="movie-info">
-                            <div class="movie-year">${releaseYear}</div>
-                            ${movieGenres ? `<div class="movie-genres">${movieGenres}</div>` : ''}
-                        </div>
-                    </div>
-                `;
+				if (data.results.length === 0) {
+					showNoResults(query);
+				} else {
+					displayMovies(data.results);
+					sectionTitle.textContent = `Search Results for "${query}"`;
+				}
+			} catch (error) {
+				console.error("Error searching movies:", error);
+				showError();
+			}
+		}
 
-                moviesGrid.appendChild(movieCard);
-            });
-        }
+		function displayMovies(movies) {
+			moviesGrid.innerHTML = "";
 
-        function openMoviePlayer(movieId) {
-            moviePlayerIframe.src = `https://vidfast.pro/movie/${movieId}?autoPlay=true`;
-            moviePlayerOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
+			movies.forEach(movie => {
+				if (!movie.poster_path) return; // Skip movies without posters
 
-        function closeMoviePlayer() {
-            moviePlayerOverlay.classList.remove('active');
-            moviePlayerIframe.src = ''; // Stop the video
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
-        }
+				const movieCard = document.createElement("div");
+				movieCard.className = "movie-card";
+				movieCard.onclick = () => {
+					openMoviePlayer(movie.id);
+				};
 
-        function showNoResults(query) {
-            moviesGrid.innerHTML = `
-                <div class="no-results">
-                    <h3>No movies found</h3>
-                    <p>We couldn't find any movies matching "${query}". Try a different search term.</p>
-                </div>
-            `;
-            sectionTitle.textContent = "Search Results";
-        }
+				const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
+				const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
 
-        function showError() {
-            moviesGrid.innerHTML = `
-                <div class="no-results">
-                    <h3>Something went wrong</h3>
-                    <p>We're having trouble loading movies right now. Please try again later.</p>
-                </div>
-            `;
-        }
+				// Get genres for this movie as individual badges
+				const movieGenres = movie.genre_ids ?
+					movie.genre_ids.map(id => genreMap[id]).filter(Boolean).map(genre =>
+						`<span class="genre-badge">${genre}</span>`
+					).join('') : '';
 
-        // Category tab functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryTabs = document.querySelectorAll(".category-tab");
-            
-            categoryTabs.forEach(tab => {
-                tab.addEventListener("click", () => {
-                    // Clear search input when switching categories
-                    searchInput.value = "";
-                    
-                    // Update active tab
-                    categoryTabs.forEach(t => t.classList.remove("active"));
-                    tab.classList.add("active");
-                    
-                    // Fetch movies for selected genre
-                    const genreId = tab.dataset.genre;
-                    fetchMoviesByGenre(genreId);
-                });
-            });
-        });
+				movieCard.innerHTML = `
+					<img src="${IMG_BASE_URL}${movie.poster_path}" alt="${movie.title}" class="movie-poster">
+					<div class="movie-rating">⭐ ${rating}</div>
+					<div class="movie-overlay">
+						<div class="movie-title">${movie.title}</div>
+						<div class="movie-info">
+							<div class="movie-year">${releaseYear}</div>
+							${movieGenres ? `<div class="movie-genres">${movieGenres}</div>` : ''}
+						</div>
+					</div>
+				`;
 
-        // Search functionality with debouncing
-        searchInput.addEventListener("input", (e) => {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-            
-            searchTimeout = setTimeout(() => {
-                searchMovies(query);
-            }, 500);
-        });
+				moviesGrid.appendChild(movieCard);
+			});
+		}
 
-        // Enter key search
-        searchInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                clearTimeout(searchTimeout);
-                searchMovies(e.target.value.trim());
-            }
-        });
+		function openMoviePlayer(movieId) {
+			moviePlayerIframe.src = `https://vidfast.pro/movie/${movieId}?autoPlay=true`;
+			moviePlayerOverlay.classList.add('active');
+			document.body.style.overflow = 'hidden'; // Prevent background scrolling
+		}
 
-        // Close player event listeners
-        closePlayerBtn.addEventListener('click', closeMoviePlayer);
-        
-        // Close player when clicking outside the iframe
-        moviePlayerOverlay.addEventListener('click', (e) => {
-            if (e.target === moviePlayerOverlay) {
-                closeMoviePlayer();
-            }
-        });
+		function closeMoviePlayer() {
+			moviePlayerOverlay.classList.remove('active');
+			moviePlayerIframe.src = ''; // Stop the video
+			document.body.style.overflow = 'auto'; // Re-enable scrolling
+		}
 
-        // Close player with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && moviePlayerOverlay.classList.contains('active')) {
-                closeMoviePlayer();
-            }
-        });
+		function showNoResults(query) {
+			moviesGrid.innerHTML = `
+				<div class="no-results">
+					<h3>No movies found</h3>
+					<p>We couldn't find any movies matching "${query}". Try a different search term.</p>
+				</div>
+			`;
+			sectionTitle.textContent = "Search Results";
+		}
 
-        // Initialize with popular movies
-        fetchPopularMovies();
+		function showError() {
+			moviesGrid.innerHTML = `
+				<div class="no-results">
+					<h3>Something went wrong</h3>
+					<p>We're having trouble loading movies right now. Please try again later.</p>
+				</div>
+			`;
+		}
+
+		// Category tab functionality
+		document.addEventListener('DOMContentLoaded', function() {
+			const categoryTabs = document.querySelectorAll(".category-tab");
+
+			categoryTabs.forEach(tab => {
+				tab.addEventListener("click", () => {
+					// Clear search input when switching categories
+					searchInput.value = "";
+
+					// Update active tab
+					categoryTabs.forEach(t => t.classList.remove("active"));
+					tab.classList.add("active");
+
+					// Fetch movies for selected genre
+					const genreId = tab.dataset.genre;
+					fetchMoviesByGenre(genreId);
+				});
+			});
+		});
+
+		// Search functionality with debouncing
+		searchInput.addEventListener("input", (e) => {
+			clearTimeout(searchTimeout);
+			const query = e.target.value.trim();
+
+			searchTimeout = setTimeout(() => {
+				searchMovies(query);
+			}, 500);
+		});
+
+		// Enter key search
+		searchInput.addEventListener("keypress", (e) => {
+			if (e.key === "Enter") {
+				clearTimeout(searchTimeout);
+				searchMovies(e.target.value.trim());
+			}
+		});
+
+		// Close player event listeners
+		closePlayerBtn.addEventListener('click', closeMoviePlayer);
+
+		// Close player when clicking outside the iframe
+		moviePlayerOverlay.addEventListener('click', (e) => {
+			if (e.target === moviePlayerOverlay) {
+				closeMoviePlayer();
+			}
+		});
+
+		// Close player with Escape key
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && moviePlayerOverlay.classList.contains('active')) {
+				closeMoviePlayer();
+			}
+		});
+
+		// Initialize with popular movies
+		fetchPopularMovies();
 	</script>
 </body>
 
